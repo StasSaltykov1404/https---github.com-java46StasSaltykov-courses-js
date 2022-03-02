@@ -1,11 +1,12 @@
 import { createCourse } from "../models/course";
-import { getRandomElement, getRandomNumber, getRandomDate } from "./random";
+import { getRandomDate, getRandomNumber, getRandomElement } from "./random";
 export function getRandomCourse(courseData) {
-    let id = getRandomNumber(courseData.minId, courseData.maxId);
-    let name = getRandomElement(courseData.courses);
-    let lecturer = getRandomElement(courseData.lectors);
-    let hours = getRandomNumber(courseData.minHours, courseData.maxHours);
-    let cost = getRandomNumber(courseData.minCost, courseData.maxCost);
-    let openingDate = getRandomDate(courseData.minYear, courseData.maxYear);
-    return createCourse(id, name, lecturer, hours, cost, openingDate)
+    const {minId, maxId,lectors,courses, minHours, maxHours, minCost, maxCost, minYear, maxYear} = courseData;
+    const id = getRandomNumber(minId, maxId);
+    const lecturer = getRandomElement(lectors);
+    const name = getRandomElement(courses);
+    const hours = Math.round(getRandomNumber(minHours, maxHours) / 10) * 10;
+    const cost = Math.round(getRandomNumber(minCost, maxCost) / 100) * 100;
+    const openingDate = getRandomDate(minYear, maxYear);
+    return createCourse(id,name,lecturer, hours, cost,openingDate);
 }

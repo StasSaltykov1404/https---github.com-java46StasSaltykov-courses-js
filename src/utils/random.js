@@ -1,20 +1,18 @@
 export function getRandomNumber(min, max) {
-    if(min > max){
-        [max, min] = [min, max];
+    if (min > max) {
+        [min, max] = [max, min];
     }
-    return Math.round(min + Math.random() * (max -min));
+    return min + Math.round(Math.random() * (max -min));
+
 }
 export function getRandomElement(array) {
-    let element = array[Math.floor(Math.random() * array.length)];
-    return element;
+    const index = getRandomNumber(0, array.length - 1);
+    return array[index];
 }
 export function getRandomDate(minYear, maxYear) {
-    if(minYear > maxYear){
-        [maxYear, minYear] = [minYear, maxYear];
-    }
-    const date = new Date();
-    date.setDate(getRandomNumber(1, 28));
-    date.setMonth(getRandomNumber(0, 11));
-    date.setFullYear(getRandomNumber(minYear, maxYear));
+    const year = getRandomNumber(minYear, maxYear);
+    const month = getRandomNumber(0, 11);
+    const day = getRandomNumber(1, 31);
+    const date = new Date(year, month, day) ;
     return date;
 }
