@@ -6,13 +6,13 @@ import TableHandler from './ui/table_handler';
 import { getRandomCourse } from './utils/randomCourse';
 import _ from 'lodash'
 import NavigatorButtons from './ui/navigator_buttons';
+
 const N_COURSES = 5;
 const statisticsColumnDefinition = [
     { key: "minInterval", displayName: "From" },
     { key: "maxInterval", displayName: "To" },
     { key: "amount", displayName: "Amount" }
 ]
-
 
 const dataProvider = new Courses(courseData.minId, courseData.maxId);
 const dataProcessor = new College(dataProvider, courseData);
@@ -72,24 +72,24 @@ window.showCourses = async () => {
     tableHandler.showTable(await dataProcessor.getAllCourses());
 
 }
-window.showHoursStatistics = () => {
+window.showHoursStatistics = async () => {
     hide()
     navigator.setActive(2);
-    tableHoursStatistics.showTable(dataProcessor.getHoursStatistics(courseData.hoursInterval));
+    tableHoursStatistics.showTable(await dataProcessor.getHoursStatistics(courseData.hoursInterval));
 
 }
-window.showCostStatistics = () => {
+window.showCostStatistics = async () => {
     hide()
     navigator.setActive(3);
-    tableCostStatistics.showTable(dataProcessor.getCostStatistics(courseData.costInterval));
+    tableCostStatistics.showTable(await dataProcessor.getCostStatistics(courseData.costInterval));
 
 }
-window.sortCourses = (key) => {
-    tableHandler.showTable(dataProcessor.sortCourses(key))
+window.sortCourses = async (key) => {
+    tableHandler.showTable(await dataProcessor.sortCourses(key))
 }
-window.removeCourse = (id) => {
+window.removeCourse = async (id) => {
     if (window.confirm(`you are going to remove course id: ${id}`)) {
-        dataProcessor.removeCourse(+id);
-        tableHandler.showTable(dataProcessor.getAllCourses());
+        await dataProcessor.removeCourse(+id);
+        tableHandler.showTable(await dataProcessor.getAllCourses());
     }
 }
