@@ -6,14 +6,15 @@ import TableHandler from './ui/table_handler';
 import { getRandomCourse } from './utils/randomCourse';
 import _ from 'lodash'
 import NavigatorButtons from './ui/navigator_buttons';
+import Spinner from './ui/spinner';
 
 const N_COURSES = 5;
+
 const statisticsColumnDefinition = [
     { key: "minInterval", displayName: "From" },
     { key: "maxInterval", displayName: "To" },
     { key: "amount", displayName: "Amount" }
 ]
-
 const dataProvider = new Courses(courseData.minId, courseData.maxId);
 const dataProcessor = new College(dataProvider, courseData);
 const tableHandler = new TableHandler([
@@ -25,7 +26,9 @@ const tableHandler = new TableHandler([
 ], "courses-table", "sortCourses", "removeCourse");
 const formHandler = new FormHandler("courses-form", "alert");
 const generationHandler = new FormHandler("generation-form", "alert");
-const navigator = new NavigatorButtons(["0","1","2", "3", "4"])
+const navigator = new NavigatorButtons(["0","1","2", "3", "4"]);
+const spinner = new Spinner("courses-table");
+
 formHandler.addHandler(async course => {
     const res = await dataProcessor.addCourse(course);
     if (typeof (res) !== 'string') {
@@ -69,18 +72,21 @@ window.showForm = () => {
 window.showCourses = async () => {
     hide();
     navigator.setActive(1);
+    spinner.start();
     tableHandler.showTable(await dataProcessor.getAllCourses());
 
 }
 window.showHoursStatistics = async () => {
     hide()
     navigator.setActive(2);
+    spinner.start();
     tableHoursStatistics.showTable(await dataProcessor.getHoursStatistics(courseData.hoursInterval));
 
 }
 window.showCostStatistics = async () => {
     hide()
     navigator.setActive(3);
+    spinner.start();
     tableCostStatistics.showTable(await dataProcessor.getCostStatistics(courseData.costInterval));
 
 }
@@ -89,6 +95,7 @@ window.sortCourses = async (key) => {
 }
 window.removeCourse = async (id) => {
     if (window.confirm(`you are going to remove course id: ${id}`)) {
+        spinner.start();
         await dataProcessor.removeCourse(+id);
         tableHandler.showTable(await dataProcessor.getAllCourses());
     }
