@@ -7,8 +7,9 @@ import { getRandomCourse } from './utils/randomCourse';
 import _ from 'lodash'
 import NavigatorButtons from './ui/navigator_buttons';
 import Spinner from './ui/spinner';
-import { Alert } from 'bootstrap';
-import CoursesRest from './services/courses_rest';
+import Alert from './ui/alert';
+// import { Alert } from 'bootstrap';
+
 const statisticsColumnDefinition = [
     { key: "minInterval", displayName: "From" },
     { key: "maxInterval", displayName: "To" },
@@ -37,11 +38,13 @@ async function asyncRequestWithSpinner(asyncFn) {
         const res = await asyncFn();
         spinner.stop();
         return res;
-    } catch (err) {
+    } catch(err) {
         spinner.stop();
-        alert.showAlert(`The server is unavailable, repeat request later`);
+        alert.showAlert(`The server is unavailable , try again later`);
     }
-}
+}    
+     
+
 formHandler.addHandler(async course => {
     const res = await asyncRequestWithSpinner(dataProcessor.addCourse.bind(dataProcessor, course)); //await dataProcessor.addCourse(course)
     if (typeof (res) !== 'string') {
@@ -112,3 +115,10 @@ window.removeCourse = async (id) => {
         tableHandler.showTable(await asyncRequestWithSpinner(dataProcessor.getAllCourses.bind(dataProcessor)));
     }
 }
+
+
+
+// spinner.start();
+// const res = await asyncFn();
+// spinner.stop();
+// return res;

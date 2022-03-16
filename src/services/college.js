@@ -12,7 +12,6 @@ export default class College {
         course.hours = +course.hours;
         course.cost = +course.cost;
         course.openingDate = new Date(course.openingDate).toLocaleDateString('en-GB');
-        console.log(course.openingDate)
         const validationMessage = this.#getValidationMessage(course);
         if(!validationMessage) {
            return await this.#courses.add(course);
@@ -30,7 +29,7 @@ export default class College {
          `wrong hours value - should be in range [${minHours}-${maxHours}] <br>`: '';
          message += !lectors.includes(lecturer) ? `wrong lecturer name - should be one from ${lectors} <br>`: '';
          message += !courses.includes(name) ? `wrong course name - should be one from ${courses}`:'';
-         const year = openingDate.year;
+         const year = openingDate.substring(6, 10);
          message += year < minYear || year > maxYear ?
           `wrong opening date - year should be in range [${minYear} - ${maxYear}]` : ''
          return message;
