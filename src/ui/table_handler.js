@@ -14,6 +14,8 @@ export default class TableHandler {
         if (!this.#tableElem) {
             throw "Table element is not defined"
         }
+
+
     }
     showTable(objects) {
         this.#tableElem.innerHTML = `${this.#getHeader()}${this.#getBody(objects)}`;

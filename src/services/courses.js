@@ -1,15 +1,13 @@
 // fake Data provisioning module
 
 import { getRandomNumber } from "../utils/random";
-
 function getPromise(timeout, value) {
     return new Promise(resolve => {
         setTimeout(() => {
-            resolve (value)
+            resolve(value)
         }, timeout)
     })
 }
-
 //data are the regular JS array
 export default class Courses {
     #courses
@@ -35,7 +33,7 @@ export default class Courses {
         return id;
     }
     exists(id) {
-        return !!this.#courses.find(c => c.id === id);
+        return getPromise(100, !!this.#courses.find(c => c.id === id));
     }
     get() {
         return getPromise(2000, this.#courses);
