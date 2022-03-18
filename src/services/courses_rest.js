@@ -15,7 +15,11 @@ export default class CoursesRest {
     }
     async get() {
         const response = await fetch(this.#url);
-        return await response.json();
+        const courses =  await response.json();
+        return courses.map(c => {
+            c.openingDate = c.openingDate.substring(0, 10);
+            return c;
+        })
     }
     async remove(id) {
         const res = this.getCourse(id);
@@ -23,10 +27,13 @@ export default class CoursesRest {
             method: 'DELETE'
         })
         return res;
+
+
     }
     #getUrlById(id) {
         return `${this.#url}/${id}`;
     }
+
     async getCourse(id) {
         const response = await fetch(this.#getUrlById(id));
         return await response.json();

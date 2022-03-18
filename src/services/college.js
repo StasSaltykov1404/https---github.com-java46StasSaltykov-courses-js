@@ -9,9 +9,14 @@ export default class College {
         this.#courseData = courseData;
     }
     async addCourse(course) {
+        //TODO validation of the course data
+        //if course is valid, then course should be added : this.#courses.add(course)
+        //if course is invalid, then the method returns full message describing what's wrong
+        //if course is valid
+        //converting from strings to the proper types
         course.hours = +course.hours;
         course.cost = +course.cost;
-        course.openingDate = new Date(course.openingDate).toLocaleDateString('en-GB');
+        course.openingDate = new Date(course.openingDate);
         const validationMessage = this.#getValidationMessage(course);
         if(!validationMessage) {
            return await this.#courses.add(course);
@@ -29,7 +34,7 @@ export default class College {
          `wrong hours value - should be in range [${minHours}-${maxHours}] <br>`: '';
          message += !lectors.includes(lecturer) ? `wrong lecturer name - should be one from ${lectors} <br>`: '';
          message += !courses.includes(name) ? `wrong course name - should be one from ${courses}`:'';
-         const year = openingDate.substring(6, 10);
+         const year = openingDate.getFullYear();
          message += year < minYear || year > maxYear ?
           `wrong opening date - year should be in range [${minYear} - ${maxYear}]` : ''
          return message;
@@ -63,4 +68,6 @@ export default class College {
         }
         return await this.#courses.remove(id);
     }
+
+   
 }

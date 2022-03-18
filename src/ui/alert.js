@@ -1,12 +1,17 @@
 export default class Alert {
-    #parentAlertElement
-    constructor(parentId) {
-        this.#parentAlertElement = document.getElementById(parentId);
+    #alertParentElem
+    constructor(idParent) {
+        this.#alertParentElem = document.getElementById(idParent)
     }
-    showAlert(errorMessage) {
-        this.#parentAlertElement.innerHTML = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Error: </strong> ${errorMessage}.
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>`
+    showAlert(message, type) {
+        const alert = `
+        <div class="alert alert-${type} alert-dismissible fade show" role="alert">
+             ${message}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>`;
+        this.#alertParentElem.innerHTML = alert;
+    }
+    hideAlert() {
+        this.#alertParentElem.innerHTML = "";
     }
 }
